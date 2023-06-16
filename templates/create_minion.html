@@ -1,0 +1,53 @@
+{% extends 'base/not_main_page.html' %}
+
+{% block content %}
+    <div class="col-md-12">
+        <h2 class="my-4">Создание объекта</h2>
+        <form method="POST" action="/create_minion" enctype="multipart/form-data">
+            <div class="form-group {% if minion_name_error %}has-error{% endif %}">
+                <label for="minion_name">Имя существа:</label>
+                <input type="text" class="form-control" id="minion_name" name="minion_name" required value="{% if name %}{{ name }}{% else %}{% endif %}">
+                {% if minion_name_error %}
+                    <span id="minion_name_error" class="help-block input-error">{{ minion_name_error }}</span>
+                {% endif %}
+            </div>
+            <div class="form-group {% if minion_description_error %}has-error{% endif %}">
+                <label for="minion_description">Описание существа:</label>
+                <textarea class="form-control" id="minion_description" name="minion_description" required>{% if long_description %}{{ long_description.replace(' ', '').replace('\r\n', '') }}{% else %}{% endif %}</textarea>
+                {% if minion_description_error %}
+                    <span id="minion_description_error" class="help-block input-error">{{ minion_description_error }}</span>
+                {% endif %}
+            </div>
+            <div class="form-group {% if minion_image_error %}has-error{% endif %}">
+                <label for="minion_image">Изображение существа:</label>
+                <input type="file" class="form-control-file" id="minion_image" name="minion_image" required>
+                {% if minion_image_error %}
+                    <span id="minion_image_error" class="help-block input-error">{{ minion_image_error }}</span>
+                {% endif %}
+            </div>
+            <div class="form-group {% if minion_card_image_error %}has-error{% endif %}">
+                <label for="minion_image">Изображение карты:</label>
+                <input type="file" class="form-control-file" id="minion_card_image" name="minion_card_image" required>
+                {% if minion_card_image_error %}
+                    <span id="minion_card_image_error" class="help-block input-error">{{ minion_card_image_error }}</span>
+                {% endif %}
+            </div>
+            <div class="form-group {% if object_types_error %}has-error{% endif %}">
+                <label for="object_type">Типы существа:</label>
+                <select id="object_types" class="form-control" size="{{ type_db|length }}" multiple name="object_types" required>
+                    {% for type in type_db %}
+                        {% if types and type._id in types %}
+                            <option selected value="{{ type._id }}">{{ type.name }}</option>
+                        {% else %}
+                            <option value="{{ type._id }}">{{ type.name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                {% if object_types_error %}
+                    <span id="object_types_error" class="help-block input-error">{{ object_types_error }}</span>
+                {% endif %}
+            </div>
+            <button type="submit" class="btn btn-primary">Создать</button>
+        </form>
+    </div>
+{% endblock %}

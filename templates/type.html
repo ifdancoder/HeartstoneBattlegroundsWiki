@@ -1,0 +1,35 @@
+{% extends 'base/not_main_page.html' %}
+
+{% block content %}
+    <div class="col-md-12">
+        <h2>
+            {{ type_db.name }}
+        </h2>
+        <div class="d-flex flex-row justify-content-between">
+            {% for image in type_db.big_image_urls %}
+                <img class="typeimg rounded_img" src="{{ '/static/' + image }}" alt="{{ type_db.name }}">
+            {% endfor %}
+        </div>
+        <div class="d-flex flex-column my-3">
+            {% for text in type_db.description %}
+                <p>
+                    {{ text }}
+                </p>
+            {% endfor %}
+        </div>
+        {% if type_db.bibliography is defined and type_db.bibliography|length > 0 %}
+            <h2>
+                Список литературы:
+            </h2>
+            <ol class="list-group">
+                {% for link in type_db.bibliography %}
+                    <li class="list-group-item">
+                        <a href="{{ link[0] }}">
+                            {{ link[1] }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ol>
+        {% endif %}
+    </div>
+{% endblock %}
